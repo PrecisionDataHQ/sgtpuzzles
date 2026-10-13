@@ -53,7 +53,7 @@ E.register_namespace('android',android[1:-1])
 E.ElementTree(manifest).write(module/'app/src/main/AndroidManifest.xml',encoding='unicode',xml_declaration=True)
 shutil.move(module/'app/src/main/res/xml/file_paths.xml',module/'app/src/main/res/xml/puzzles_file_paths.xml')
 base=module/'app/src/main/kotlin/name/boyle/chris/sgtpuzzles'
-p=base/'GamePlay.kt';p.write_text(p.read_text().replace('"$packageName.fileprovider"','"$packageName.puzzles.files"'))
+p=base/'GamePlay.kt';p.write_text(p.read_text().replace('"$packageName.fileprovider"','"$packageName.puzzles.files"').replace('        NavUtils.navigateUpFromSameTask(this)', '        startActivity(android.content.Intent(this, GameChooser::class.java))\n        finish()'))
 p=base/'SGTPuzzles.kt';s=p.read_text();a=s.index('        TaskStackBuilder.create(this)');b=s.index('        finish()',a)
 s=s[:a]+'        startActivity(intent.setClass(this, GamePlay::class.java))\n'+s[b:];p.write_text(s)
 p=base/'NightModeHelper.kt';s=p.read_text();needle='    open class ActivityWithNightMode : AppCompatActivity() {'
